@@ -456,97 +456,99 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     showDialog(
       context: context,
       builder:
-          (_) => AlertDialog(
-            title: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(CupertinoIcons.arrow_left),
-                ),
-                Text('Sound Settings'),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTileSwitch(
-                  title: Text('Music'),
-                  visualDensity: VisualDensity.comfortable,
-                  switchType: SwitchType.cupertino,
-                  switchScale: 1,
-                  switchActiveColor: Colors.green,
-                  value: isMusicOn,
-                  onChanged: (val) async {
-                    setState(() {
-                      isMusicOn = val;
-                    });
-                    await _saveSoundSettings();
-                    if (isMusicOn) {
-                      _playBackgroundMusic();
-                    } else {
-                      backgroundplayer.pause();
-                    }
-                    Navigator.pop(context);
-                  },
-                ),
-
-                ListTileSwitch(
-                  title: Text('Sound Effects'),
-                  visualDensity: VisualDensity.comfortable,
-                  switchType: SwitchType.cupertino,
-                  switchScale: 1,
-                  switchActiveColor: Colors.green,
-                  value: isSoundOn,
-                  onChanged: (val) async {
-                    setState(() {
-                      isSoundOn = val;
-                    });
-                    await _saveSoundSettings();
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(height: 16),
-
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 10,
-                      backgroundColor: Color(0xFF27548A),
+          (_) => StatefulBuilder(
+            builder: (context, setDialogState) {
+              return AlertDialog(
+                title: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(CupertinoIcons.arrow_left),
                     ),
-                    onPressed: () async {
-                      Navigator.pop(context);
-                      await _showUserNameDialog(fromSettings: true);
-                      _showSettingsDialog();
-                    },
-                    child: Text(
-                      'Change Your Name',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                    Text('Sound Settings'),
+                  ],
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTileSwitch(
+                      title: Text('Music'),
+                      visualDensity: VisualDensity.comfortable,
+                      switchType: SwitchType.cupertino,
+                      switchScale: 1,
+                      switchActiveColor: Colors.green,
+                      value: isMusicOn,
+                      onChanged: (val) async {
+                        setDialogState(() {
+                          isMusicOn = val;
+                        });
+                        await _saveSoundSettings();
+                        if (isMusicOn) {
+                          _playBackgroundMusic();
+                        } else {
+                          backgroundplayer.pause();
+                        }
+                      },
+                    ),
+              
+                    ListTileSwitch(
+                      title: Text('Sound Effects'),
+                      visualDensity: VisualDensity.comfortable,
+                      switchType: SwitchType.cupertino,
+                      switchScale: 1,
+                      switchActiveColor: Colors.green,
+                      value: isSoundOn,
+                      onChanged: (val) async {
+                        setDialogState(() {
+                          isSoundOn = val;
+                        });
+                        await _saveSoundSettings();
+                      },
+                    ),
+                    SizedBox(height: 16),
+              
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 10,
+                          backgroundColor: Color(0xFF27548A),
+                        ),
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await _showUserNameDialog(fromSettings: true);
+                          _showSettingsDialog();
+                        },
+                        child: Text(
+                          'Change Your Name',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-
-                SizedBox(height: 20),
-
-                Center(
-                  child: Text(
-                    'Version 1.1',
-                    style: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
+              
+                    SizedBox(height: 20),
+              
+                    Center(
+                      child: Text(
+                        'Version 1.1',
+                        style: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            }
           ),
     );
   }
