@@ -492,7 +492,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         }
                       },
                     ),
-              
+
                     ListTileSwitch(
                       title: Text('Sound Effects'),
                       visualDensity: VisualDensity.comfortable,
@@ -508,7 +508,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       },
                     ),
                     SizedBox(height: 16),
-              
+
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       width: double.infinity,
@@ -532,9 +532,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
                     ),
-              
+
                     SizedBox(height: 20),
-              
+
                     Center(
                       child: Text(
                         'Version 1.1',
@@ -548,7 +548,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ],
                 ),
               );
-            }
+            },
           ),
     );
   }
@@ -573,54 +573,68 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 fit: BoxFit.cover,
               ),
               Spacer(),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                width: double.infinity,
-                height: MediaQuery.sizeOf(context).height * 0.08,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    backgroundColor: Color(0xFF27548A),
-                  ),
-                  onPressed: () async {
-                    if (isSoundOn) {
-                      await clickplayer.play(AssetSource('sounds/click.wav'));
-                    }
-                    _startGameFlow();
-                  },
-                  child: Text(
-                    'Start',
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 50),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        // width: double.infinity,
+                        height: MediaQuery.sizeOf(context).height * 0.08,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 10,
+                            backgroundColor: Color(0xFF27548A),
+                          ),
+                          onPressed: () async {
+                            if (isSoundOn) {
+                              await clickplayer.play(
+                                AssetSource('sounds/click.wav'),
+                              );
+                            }
+                            _startGameFlow();
+                          },
+                          child: Text(
+                            'Start',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 50),
-                width: double.infinity,
-                height: MediaQuery.sizeOf(context).height * 0.08,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    backgroundColor: Color(0xFF3674B5),
-                  ),
-                  onPressed: () async {
-                    if (isSoundOn) {
-                      await clickplayer.play(AssetSource('sounds/click.wav'));
-                    }
-                    _showSettingsDialog();
-                  },
-                  child: Text(
-                    'Settings',
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                    SizedBox(width: 16,),
+                    Expanded(
+                      child: SizedBox(
+                        // width: double.infinity,
+                        height: MediaQuery.sizeOf(context).height * 0.08,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 10,
+                            backgroundColor: Color(0xFF3674B5),
+                          ),
+                          onPressed: () async {
+                            if (isSoundOn) {
+                              await clickplayer.play(
+                                AssetSource('sounds/click.wav'),
+                              );
+                            }
+                            _showSettingsDialog();
+                          },
+                          child: Text(
+                            'Settings',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ],
