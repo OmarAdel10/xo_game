@@ -574,12 +574,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               Spacer(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 50),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 50,
+                ),
                 child: Row(
                   children: [
                     Expanded(
                       child: SizedBox(
-                        // width: double.infinity,
                         height: MediaQuery.sizeOf(context).height * 0.08,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -605,10 +607,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16,),
+                    SizedBox(width: 16),
                     Expanded(
                       child: SizedBox(
-                        // width: double.infinity,
                         height: MediaQuery.sizeOf(context).height * 0.08,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
