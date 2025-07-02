@@ -28,6 +28,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   bool isMusicOn = true;
   bool isSoundOn = true;
 
+  double _musicVolume = 0.5;
+
   @override
   void initState() {
     super.initState();
@@ -61,8 +63,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       ),
     );
+    _loadSettings();
     _playBackgroundMusic();
     _loadUserName();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isMusicOn = prefs.getBool('isMusicOn') ?? true;
+      isSoundOn = prefs.getBool('isSoundOn') ?? true;
+      _musicVolume = prefs.getDouble('_musicVolume') ?? 0.5;
+    });
+    await backgroundplayer.setVolume(_musicVolume);
+    if (!isMusicOn) {
+      await backgroundplayer.pause();
+    }
   }
 
   Future<void> _loadUserName() async {
@@ -73,11 +89,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   Future<void> _playBackgroundMusic() async {
-    await backgroundplayer.setReleaseMode(ReleaseMode.loop);
-    await backgroundplayer.play(
+    if (isMusicOn) {
+      await backgroundplayer.setReleaseMode(ReleaseMode.loop);
+      await backgroundplayer.play(
       AssetSource('sounds/background.wav'),
-      volume: 0.5,
-    );
+      volume: _musicVolume,
+    );}
   }
 
   Future<void> _showUserNameDialog({bool fromSettings = false}) async {
@@ -450,6 +467,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isMusicOn', isMusicOn);
     await prefs.setBool('isSoundOn', isSoundOn);
+    await prefs.setDouble('musicVolume', _musicVolume);
   }
 
   void _showSettingsDialog() {
@@ -473,6 +491,27 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Text(
+                      'Music Volume',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(width: 16),
+                    RotatedBox(
+                      quarterTurns: 0,
+                      child: CupertinoSlider(
+                        activeColor: Color(0xFF27548A),
+                        divisions: 10,
+                        value: _musicVolume,
+                        onChanged: (value) async {
+                          setDialogState(() {
+                            _musicVolume = value;
+                          });
+                          await backgroundplayer.setVolume(_musicVolume);
+                          await _saveSoundSettings();
+                        },
+                      ),
+                    ),
+
                     ListTileSwitch(
                       title: Text('Music'),
                       visualDensity: VisualDensity.comfortable,
